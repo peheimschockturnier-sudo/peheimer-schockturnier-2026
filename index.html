@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2. Peheimer Schock Turnier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="dice-bg" aria-hidden="true">
+    <span class="dice d1">🎲</span><span class="dice d2">🎲</span><span class="dice d3">🎲</span><span class="dice d4">🎲</span><span class="dice d5">🎲</span>
+  </div>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="#home" class="logo-box"><img src="images/logo.png" alt="SV Peheim Logo"><span>SV Peheim e.V.</span></a>
+      <ul class="nav-links">
+        <li><a href="#turnier">Turnier</a></li><li><a href="#status">Status</a></li><li><a href="anmeldung.html">Anmeldung</a></li><li><a href="#spielregeln">Spielregeln</a></li><li><a href="#galerie">Galerie</a></li><li><a href="#spielplan">Spielplan</a></li><li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-card reveal">
+        <p class="eyebrow">SV Peheim e.V. – Tischtennis präsentiert</p>
+        <h1>2. Peheimer<br>Schock Turnier</h1>
+        <p class="hero-info">10. Oktober 2026 · 14:00 Uhr · Sportheim Peheim</p>
+        <div id="countdown" class="countdown">
+          <div><span id="tage">00</span><small>Tage</small></div><div><span id="stunden">00</span><small>Std.</small></div><div><span id="minuten">00</span><small>Min.</small></div><div><span id="sekunden">00</span><small>Sek.</small></div>
+        </div>
+        <div class="hero-buttons"><a href="anmeldung.html" class="btn primary">Jetzt anmelden</a><a href="downloads/Turnierordnung.pdf" class="btn secondary" target="_blank">Turnierordnung als PDF</a></div>
+      </div>
+    </section>
+
+    <section id="turnier" class="section">
+      <h2>Turnierinformationen</h2>
+      <div class="cards four">
+        <article class="card"><span>📅</span><h3>Datum</h3><p>10.10.2026</p></article>
+        <article class="card"><span>📍</span><h3>Ort</h3><p>Sportheim Peheim</p></article>
+        <article class="card"><span>💶</span><h3>Startgeld</h3><p>10 €</p></article>
+        <article class="card"><span>👥</span><h3>Teilnehmer</h3><p>Maximal 120</p></article>
+      </div>
+    </section>
+
+    <section id="status" class="section highlight">
+      <h2>Anmeldestatus</h2>
+      <div class="status-card">
+        <div class="circle"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="75"></circle><circle id="progressCircle" cx="90" cy="90" r="75"></circle></svg><div class="circle-text"><span id="teilnehmerzahl">0</span><small>von 120</small></div></div>
+        <div class="progress"><div id="progressBar"></div></div>
+        <h3 id="statusText">Lade Teilnehmerzahl ...</h3>
+      </div>
+    </section>
+
+    <section id="spielregeln" class="section">
+      <h2>Spielregeln</h2>
+      <div class="cards three">
+        <article class="card"><span>🎲</span><h3>Spielmodus</h3><p>Gespielt wird nach der Turnierordnung des Veranstalters.</p></article>
+        <article class="card"><span>🤝</span><h3>Fair Play</h3><p>Respektvoller Umgang und faire Spiele stehen im Mittelpunkt.</p></article>
+        <article class="card"><span>🏆</span><h3>Turnierleitung</h3><p>Bei Unklarheiten entscheidet die Turnierleitung.</p></article>
+      </div>
+      <a class="btn primary space-top" href="downloads/Turnierordnung.pdf" target="_blank">Turnierordnung als PDF herunterladen</a>
+    </section>
+
+    <section id="galerie" class="section highlight">
+      <h2>Impressionen vom letzten Turnier</h2>
+      <p class="lead">Lege deine Fotos in <strong>images/galerie/</strong> als 1.jpg bis 6.jpg ab.</p>
+      <div class="gallery">
+        <img src="images/galerie/1.jpg" alt="Turnierfoto 1" onerror="this.style.display='none'">
+        <img src="images/galerie/2.jpg" alt="Turnierfoto 2" onerror="this.style.display='none'">
+        <img src="images/galerie/3.jpg" alt="Turnierfoto 3" onerror="this.style.display='none'">
+        <img src="images/galerie/4.jpg" alt="Turnierfoto 4" onerror="this.style.display='none'">
+        <img src="images/galerie/5.jpg" alt="Turnierfoto 5" onerror="this.style.display='none'">
+        <img src="images/galerie/6.jpg" alt="Turnierfoto 6" onerror="this.style.display='none'">
+      </div>
+    </section>
+
+    <section id="spielplan" class="section">
+      <h2>Live-Spielplan</h2>
+      <p class="lead">Der Spielplan mit Begegnungen, Ergebnissen und Tabellen wird zum Turnier freigeschaltet.</p>
+      <div class="table-wrap"><table><thead><tr><th>Tisch</th><th>Team A</th><th>Team B</th><th>Status</th></tr></thead><tbody><tr><td>1</td><td>folgt</td><td>folgt</td><td>⏳ geplant</td></tr></tbody></table></div>
+    </section>
+
+    <section id="social" class="section highlight">
+      <h2>Social Media</h2>
+      <p class="lead">Folgt uns und verpasst keine Neuigkeiten.</p>
+      <div class="social-links"><a href="#">Facebook</a><a href="#">Instagram</a><a href="#">WhatsApp-Kanal</a></div>
+    </section>
+
+    <section id="kontakt" class="section contact">
+      <h2>Kontakt</h2>
+      <p><strong>SV Peheim e.V. – Tischtennis</strong></p><p>E-Mail: peheimschockturnier@gmail.com</p><p>Zum Sportzentrum 1 · 49696 Molbergen-Peheim</p>
+    </section>
+  </main>
+  <footer><p>© 2026 SV Peheim e.V. – Tischtennis · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p></footer>
+  <script src="js/countdown.js"></script><script src="js/status.js"></script><script src="js/gallery.js"></script>
+</body>
+</html>
