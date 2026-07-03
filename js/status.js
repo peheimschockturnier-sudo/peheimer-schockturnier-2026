@@ -1,20 +1,40 @@
-// Hier später die Google Apps Script Web-App-URL einfügen:
-const WEBAPP_URL = '';
-const maxTeilnehmer = 120;
-async function ladeStatus(){
-  let angemeldet = 0;
-  try{
-    if(WEBAPP_URL){
-      const res = await fetch(WEBAPP_URL);
-      const data = await res.json();
-      angemeldet = Number(data.teilnehmer || 0);
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxhsbkkfUKRYlbd_00HIegKbEhPUTy14Pl_Zv10hFXEHd0HV_sMMLdd4GkXt0EbKXqWGQ/exec";
+
+const maxGruppen = 30;
+const spielerProGruppe = 4;
+
+fetch(WEBAPP_URL)
+  .then(response => response.json())
+  .then(data => {
+    const gruppen = Number(data.gruppen || data.teilnehmer || 0);
+    const freieGruppen = Math.max(0, maxGruppen - gruppen);
+    const spieler = gruppen * spielerProGruppe;
+    const maxSpieler = maxGruppen * spielerProGruppe;
+    const prozent = Math.min(100, (gruppen / maxGruppen) * 100);
+
+    document.getElementById("teilnehmerzahl").textContent = gruppen;
+    document.getElementById("progressBar").style.width = prozent + "%";
+
+    const circle = document.getElementById("progressCircle");
+    if (circle) {
+      const umfang = 471;
+      circle.style.strokeDashoffset = umfang - (umfang * prozent / 100);
     }
-  }catch(e){ console.warn('Teilnehmerzahl konnte nicht geladen werden', e); }
-  const frei = Math.max(0, maxTeilnehmer - angemeldet);
-  const prozent = Math.min(100, angemeldet / maxTeilnehmer * 100);
-  document.getElementById('teilnehmerzahl').textContent = angemeldet;
-  document.getElementById('progressBar').style.width = prozent + '%';
-  document.getElementById('progressCircle').style.strokeDashoffset = 471 - (471 * prozent / 100);
-  document.getElementById('statusText').innerHTML = angemeldet >= maxTeilnehmer ? '🔴 Das Turnier ist ausgebucht!' : `${angemeldet} von ${maxTeilnehmer} Plätzen vergeben<br>Noch ${frei} Plätze frei`;
-}
-ladeStatus();
+
+    if (gruppen >= maxGruppen) {
+      document.getElementById("statusText").innerHTML =
+        "🔴 Das Turnier ist ausgebucht!";
+      document.getElementById("spielerText").innerHTML =
+        `${maxGruppen} Gruppen · ${maxSpieler} Spieler`;
+    } else {
+      document.getElementById("statusText").innerHTML =
+        `${gruppen} von ${maxGruppen} Gruppen angemeldet<br>Noch ${freieGruppen} Gruppen frei`;
+
+      document.getElementById("spielerText").innerHTML =
+        `Aktuell ca. ${spieler} von ${maxSpieler} Spielern`;
+    }
+  })
+  .catch(() => {
+    document.getElementById("statusText").innerHTML =
+      "❌ Anmeldestatus konnte nicht geladen werden.";
+  });
