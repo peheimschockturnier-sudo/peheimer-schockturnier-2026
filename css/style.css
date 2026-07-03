@@ -57,3 +57,9 @@
     transform:translateY(-4px) scale(1.03);
     box-shadow:0 12px 30px rgba(0,0,0,.35);
 }
+.spieler-text {
+  margin-top: 14px;
+  font-size: 18px;
+  color: #ffb06a;
+  font-weight: 700;
+}
