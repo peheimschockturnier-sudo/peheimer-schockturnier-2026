@@ -28,3 +28,32 @@
   max-height: 95px;
   object-fit: contain;
 }
+.instagram-btn{
+    display:inline-block;
+    padding:16px 35px;
+    border-radius:50px;
+    text-decoration:none;
+    color:#fff;
+    font-weight:700;
+    font-size:18px;
+
+    background:linear-gradient(
+        45deg,
+        #405DE6,
+        #5851DB,
+        #833AB4,
+        #C13584,
+        #E1306C,
+        #FD1D1D,
+        #F56040,
+        #FCAF45
+    );
+
+    transition:.3s;
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+}
+
+.instagram-btn:hover{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
