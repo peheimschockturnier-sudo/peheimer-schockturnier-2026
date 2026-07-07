@@ -1,3 +1,14 @@
+const TESTMODUS = true;
+const freigabe = new Date("2026-09-01T00:00:00");
+
+const jetzt = new Date();
+
+if (TESTMODUS || jetzt >= freigabe) {
+    document.getElementById("anmeldungGesperrt").style.display = "none";
+    document.getElementById("formularBereich").style.display = "block";
+} else {
+    // Countdown...
+}
 }
 const freigabe = new Date("2026-09-01T00:00:00");
 const jetzt = new Date();
