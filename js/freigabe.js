@@ -1,42 +1,36 @@
 const TESTMODUS = true;
 const freigabe = new Date("2026-09-01T00:00:00");
 
-const jetzt = new Date();
+const anmeldungGesperrt = document.getElementById("anmeldungGesperrt");
+const formularBereich = document.getElementById("formularBereich");
+const countdownFreigabe = document.getElementById("countdownFreigabe");
 
-if (TESTMODUS || jetzt >= freigabe) {
-    document.getElementById("anmeldungGesperrt").style.display = "none";
-    document.getElementById("formularBereich").style.display = "block";
-} else {
-    // Countdown...
+function zeigeFormular() {
+  anmeldungGesperrt.style.display = "none";
+  formularBereich.style.display = "block";
 }
+
+function zeigeSperrseite() {
+  anmeldungGesperrt.style.display = "block";
+  formularBereich.style.display = "none";
 }
-const freigabe = new Date("2026-09-01T00:00:00");
-const jetzt = new Date();
 
-if (jetzt >= freigabe) {
-
-    document.getElementById("anmeldungGesperrt").style.display = "none";
-    document.getElementById("formularBereich").style.display = "block";
-
+if (TESTMODUS || new Date() >= freigabe) {
+  zeigeFormular();
 } else {
+  zeigeSperrseite();
 
-    function updateCountdown(){
+  function updateFreigabeCountdown() {
+    const diff = freigabe - new Date();
 
-        const diff = freigabe - new Date();
+    const tage = Math.floor(diff / 1000 / 60 / 60 / 24);
+    const stunden = Math.floor(diff / 1000 / 60 / 60) % 24;
+    const minuten = Math.floor(diff / 1000 / 60) % 60;
 
-        const tage = Math.floor(diff/1000/60/60/24);
-        const stunden = Math.floor(diff/1000/60/60)%24;
-        const minuten = Math.floor(diff/1000/60)%60;
+    countdownFreigabe.innerHTML =
+      `${tage} Tage · ${stunden} Std. · ${minuten} Min. bis zum Anmeldestart`;
+  }
 
-        document.getElementById("countdownFreigabe").innerHTML =
-
-        `<h2>${tage} Tage ${stunden} Std. ${minuten} Min.</h2>
-        <p>bis zum Anmeldestart</p>`;
-
-    }
-
-    updateCountdown();
-
-    setInterval(updateCountdown,60000);
-
+  updateFreigabeCountdown();
+  setInterval(updateFreigabeCountdown, 60000);
 }
