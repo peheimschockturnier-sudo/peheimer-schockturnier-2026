@@ -1,40 +1,45 @@
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxhsbkkfUKRYlbd_00HIegKbEhPUTy14Pl_Zv10hFXEHd0HV_sMMLdd4GkXt0EbKXqWGQ/exec";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec";
 
 const maxGruppen = 30;
-const spielerProGruppe = 4;
 
-fetch(WEBAPP_URL)
-  .then(response => response.json())
-  .then(data => {
-    const gruppen = Number(data.gruppen || data.teilnehmer || 0);
-    const freieGruppen = Math.max(0, maxGruppen - gruppen);
-    const spieler = gruppen * spielerProGruppe;
-    const maxSpieler = maxGruppen * spielerProGruppe;
+async function ladeAnmeldestatus() {
+  const statusText = document.getElementById("statusText");
+  const teilnehmerzahl = document.getElementById("teilnehmerzahl");
+  const progressBar = document.getElementById("progressBar");
+  const progressCircle = document.getElementById("progressCircle");
+  const spielerText = document.getElementById("spielerText");
+
+  try {
+    const response = await fetch(WEBAPP_URL);
+    const data = await response.json();
+
+    const gruppen = Number(data.gruppen || 0);
+    const freieGruppen = Number(data.freieGruppen || Math.max(0, maxGruppen - gruppen));
     const prozent = Math.min(100, (gruppen / maxGruppen) * 100);
 
-    document.getElementById("teilnehmerzahl").textContent = gruppen;
-    document.getElementById("progressBar").style.width = prozent + "%";
+    teilnehmerzahl.textContent = gruppen;
+    progressBar.style.width = prozent + "%";
 
-    const circle = document.getElementById("progressCircle");
-    if (circle) {
+    if (progressCircle) {
       const umfang = 471;
-      circle.style.strokeDashoffset = umfang - (umfang * prozent / 100);
+      progressCircle.style.strokeDashoffset = umfang - (umfang * prozent / 100);
+    }
+
+    if (spielerText) {
+      spielerText.innerHTML = `Aktuell ca. ${gruppen * 4} von ${maxGruppen * 4} Spielern`;
     }
 
     if (gruppen >= maxGruppen) {
-      document.getElementById("statusText").innerHTML =
-        "🔴 Das Turnier ist ausgebucht!";
-      document.getElementById("spielerText").innerHTML =
-        `${maxGruppen} Gruppen · ${maxSpieler} Spieler`;
+      statusText.innerHTML = "🔴 Das Turnier ist ausgebucht!";
     } else {
-      document.getElementById("statusText").innerHTML =
+      statusText.innerHTML =
         `${gruppen} von ${maxGruppen} Gruppen angemeldet<br>Noch ${freieGruppen} Gruppen frei`;
-
-      document.getElementById("spielerText").innerHTML =
-        `Aktuell ca. ${spieler} von ${maxSpieler} Spielern`;
     }
-  })
-  .catch(() => {
-    document.getElementById("statusText").innerHTML =
-      "❌ Anmeldestatus konnte nicht geladen werden.";
-  });
+
+  } catch (error) {
+    console.error(error);
+    statusText.innerHTML = "❌ Anmeldestatus konnte nicht geladen werden.";
+  }
+}
+
+ladeAnmeldestatus();
