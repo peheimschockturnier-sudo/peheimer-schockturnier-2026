@@ -1,4 +1,4 @@
-const TESTMODUS = true;
+const TESTMODUS = false;
 const freigabe = new Date("2026-09-01T00:00:00");
 
 const anmeldungGesperrt = document.getElementById("anmeldungGesperrt");
