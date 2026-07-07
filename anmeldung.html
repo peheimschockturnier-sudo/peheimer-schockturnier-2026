@@ -1,30 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anmeldung | 2. Peheimer Schock Turnier</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<section class="section anmeldung-page">
+
+  <div id="anmeldungGesperrt" class="status-card">
+    <h2>🎲 Anmeldung</h2>
+    <h1>Anmeldung startet am</h1>
+    <h2>01.09.2026</h2>
+
+    <p>
+      Die Anmeldung zum 2. Peheimer Schock Turnier ist derzeit noch nicht freigeschaltet.
+    </p>
+
+    <div id="countdownFreigabe" class="freigabe-countdown"></div>
+
+    <div class="hero-buttons">
+      <a href="index.html" class="btn primary">Zur Startseite</a>
+      <a href="downloads/Turnierordnung.pdf" class="btn secondary" target="_blank">
+        Turnierordnung ansehen
+      </a>
+    </div>
+  </div>
+
+  <div id="formularBereich" class="status-card" style="display:none;">
+    <h2>🎲 Anmeldung</h2>
+    <p class="lead">Meldet eure Gruppe verbindlich zum 2. Peheimer Schock Turnier an.</p>
+
+    <form id="anmeldungForm" class="form-card">
+      <input type="text" name="vorname" placeholder="Vorname" required>
+      <input type="text" name="nachname" placeholder="Nachname" required>
+      <input type="tel" name="telefon" placeholder="Telefonnummer" required>
+      <input type="email" name="email" placeholder="E-Mail-Adresse" required>
+      <input type="text" name="teamname" placeholder="Gruppenname / Teamname" required>
+
+      <input type="text" name="spieler1" placeholder="Mitspieler 1">
+      <input type="text" name="spieler2" placeholder="Mitspieler 2">
+      <input type="text" name="spieler3" placeholder="Mitspieler 3">
+      <input type="text" name="spieler4" placeholder="Mitspieler 4">
+
+      <label class="check">
+        <input type="checkbox" required>
+        Ich akzeptiere die Turnierordnung und die Datenschutzhinweise.
+      </label>
+
+      <button type="submit" class="btn primary">Jetzt verbindlich anmelden</button>
+    </form>
+
+    <div id="meldung"></div>
+
+    <a href="index.html" class="btn secondary space-top">Zurück zur Startseite</a>
+  </div>
+
+</section>
+
 <script src="js/freigabe.js"></script>
-<script src="js/anmeldung.js"></script></body><div id="anmeldungGesperrt">
+<script src="js/anmeldung.js"></script>
 
-    <section class="section">
-
-        <h1>Anmeldung</h1>
-
-        <h2>🎲 Anmeldung startet am</h2>
-
-        <h1>01.09.2026</h1>
-
-        <p>
-
-            Die Anmeldung zum 2. Peheimer Schock Turnier ist derzeit noch nicht freigeschaltet.
-
-        </p>
-
-        <div id="countdownFreigabe"></div>
-
-        <a href="index.html" class="btn primary">
-
-            Zur Startseite
-
-        </a>
-
-    </section>
-
-</div>
-
-<div id="formularBereich" style="display:none;"></html>
+</body>
+</html>
