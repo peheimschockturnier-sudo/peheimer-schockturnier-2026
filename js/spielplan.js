@@ -1,14 +1,35 @@
-const SPIELPLAN_URL = "const SPIELPLAN_URL = "https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";";
-
+const SPIELPLAN_URL ="https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";";
+ 
 async function ladeSpielplan() {
   const container = document.getElementById("spielplanTabelle");
 
+  if (!container) {
+    console.error("Element #spielplanTabelle wurde nicht gefunden.");
+    return;
+  }
+
+  container.innerHTML = "<p>Spielplan wird geladen ...</p>";
+
   try {
-    const response = await fetch(SPIELPLAN_URL);
+    const response = await fetch(SPIELPLAN_URL, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("HTTP-Fehler: " + response.status);
+    }
+
     const data = await response.json();
 
-    if (!data.spiele || data.spiele.length === 0) {
-      container.innerHTML = "<p>Der Spielplan wird bald veröffentlicht.</p>";
+    console.log("Spielplan-Daten:", data);
+
+    if (!Array.isArray(data.spiele)) {
+      throw new Error("Ungültige Antwort: 'spiele' fehlt.");
+    }
+
+    if (data.spiele.length === 0) {
+      container.innerHTML =
+        "<p>Der Spielplan wird bald veröffentlicht.</p>";
       return;
     }
 
@@ -28,20 +49,31 @@ async function ladeSpielplan() {
           <tbody>
     `;
 
-    data.spiele.forEach(spiel => {
+    data.spiele.forEach((spiel) => {
+      const status = String(spiel.status || "Geplant").trim();
+
       let badgeClass = "badge geplant";
 
-      if (spiel.status === "Läuft") badgeClass = "badge laeuft";
-      if (spiel.status === "Beendet") badgeClass = "badge beendet";
+      if (status.toLowerCase() === "läuft") {
+        badgeClass = "badge laeuft";
+      }
+
+      if (status.toLowerCase() === "beendet") {
+        badgeClass = "badge beendet";
+      }
 
       html += `
         <tr>
-          <td>${spiel.runde}</td>
-          <td>${spiel.tisch}</td>
-          <td>${spiel.uhrzeit}</td>
-          <td>${spiel.teamA}</td>
-          <td>${spiel.teamB}</td>
-          <td><span class="${badgeClass}">${spiel.status || "Geplant"}</span></td>
+          <td>${spiel.runde || ""}</td>
+          <td>${spiel.tisch || ""}</td>
+          <td>${spiel.uhrzeit || ""}</td>
+          <td>${spiel.teamA || ""}</td>
+          <td>${spiel.teamB || ""}</td>
+          <td>
+            <span class="${badgeClass}">
+              ${status}
+            </span>
+          </td>
         </tr>
       `;
     });
@@ -55,10 +87,13 @@ async function ladeSpielplan() {
     container.innerHTML = html;
 
   } catch (error) {
-    console.error(error);
-    container.innerHTML = "<p>❌ Spielplan konnte nicht geladen werden.</p>";
+    console.error("Spielplan-Fehler:", error);
+
+    container.innerHTML =
+      "<p>❌ Spielplan konnte nicht geladen werden.</p>";
   }
 }
 
-ladeSpielplan();
+document.addEventListener("DOMContentLoaded", ladeSpielplan);
+
 setInterval(ladeSpielplan, 60000);
