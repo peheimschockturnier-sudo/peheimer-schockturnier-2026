@@ -40,9 +40,12 @@ async function ladeSpielplan() {
             <tr>
               <th>Runde</th>
               <th>Tisch</th>
-              <th>Uhrzeit</th>
-              <th>Team A</th>
-              <th>Team B</th>
+              <th>Teamname</th>
+              <th>Spieler 1</th>
+              <th>Spieler 2</th>
+              <th>Spieler 3</th>
+              <th>Spieler 4</th>
+              <th>Spieler 5</th>      
               <th>Status</th>
             </tr>
           </thead>
@@ -66,9 +69,12 @@ async function ladeSpielplan() {
         <tr>
           <td>${spiel.runde || ""}</td>
           <td>${spiel.tisch || ""}</td>
-          <td>${spiel.uhrzeit || ""}</td>
-          <td>${spiel.teamA || ""}</td>
-          <td>${spiel.teamB || ""}</td>
+          <td>${spiel.Teamname || ""}</td>
+          <td>${spiel.Spieler 1 || ""}</td>
+          <td>${spiel.Spieler 2 || ""}</td>
+          <td>${spiel.Spieler 3 || ""}</td>
+          <td>${spiel.Spieler 4 || ""}</td>
+          <td>${spiel.Spieler 5 || ""}</td>                
           <td>
             <span class="${badgeClass}">
               ${status}
