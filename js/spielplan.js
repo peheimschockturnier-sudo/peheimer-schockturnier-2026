@@ -1,5 +1,5 @@
 const SPIELPLAN_URL ="https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";
- 
+console.log("spielplan.js wurde erfolgreich geladen");
 async function ladeSpielplan() {
   const container = document.getElementById("spielplanTabelle");
 
