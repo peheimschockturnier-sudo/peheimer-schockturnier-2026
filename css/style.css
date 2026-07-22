@@ -123,3 +123,139 @@
   font-weight: 800;
   font-size: 20px;
 }
+
+/* ==========================================
+   LIVE SPIELPLAN
+========================================== */
+
+.spielplan-section{
+    max-width:1700px;
+    width:95%;
+    margin:auto;
+}
+
+#spielplanTabelle{
+    width:100%;
+}
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+    border-radius:22px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+    box-shadow:0 15px 35px rgba(0,0,0,.20);
+}
+
+.table-wrap table{
+    width:100%;
+    min-width:1450px;
+    border-collapse:collapse;
+}
+
+.table-wrap th{
+    font-size:24px;
+    font-weight:700;
+    color:#ffb347;
+    padding:24px 18px;
+    text-align:center;
+    white-space:nowrap;
+}
+
+.table-wrap td{
+    font-size:22px;
+    padding:24px 18px;
+    text-align:center;
+    color:#fff;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.table-wrap tr:hover{
+    background:rgba(255,255,255,.06);
+    transition:.25s;
+}
+
+/* Status */
+
+.badge{
+    display:inline-block;
+    min-width:130px;
+    padding:12px 28px;
+    border-radius:40px;
+    font-size:19px;
+    font-weight:700;
+    text-align:center;
+}
+
+.badge.geplant{
+    background:#ffffff;
+    color:#156b75;
+}
+
+.badge.laeuft{
+    background:#ffb347;
+    color:#111;
+}
+
+.badge.beendet{
+    background:#36c96d;
+    color:#fff;
+}
+
+/* Scrollbar */
+
+.table-wrap::-webkit-scrollbar{
+    height:12px;
+}
+
+.table-wrap::-webkit-scrollbar-thumb{
+    background:#999;
+    border-radius:20px;
+}
+
+.table-wrap::-webkit-scrollbar-track{
+    background:#ddd;
+}
+
+/* Tablet */
+
+@media (max-width:1200px){
+
+.table-wrap th{
+    font-size:20px;
+}
+
+.table-wrap td{
+    font-size:18px;
+}
+
+}
+
+/* Smartphone */
+
+@media (max-width:768px){
+
+.spielplan-section{
+    width:100%;
+}
+
+.table-wrap table{
+    min-width:1100px;
+}
+
+.table-wrap th{
+    font-size:17px;
+}
+
+.table-wrap td{
+    font-size:16px;
+    padding:16px 12px;
+}
+
+.badge{
+    min-width:100px;
+    font-size:15px;
+    padding:10px 18px;
+}
+
+}
