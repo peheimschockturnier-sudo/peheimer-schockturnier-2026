@@ -80,28 +80,6 @@ function holeSpieler(spiel) {
   ].filter((spieler) => String(spieler).trim() !== "");
 }
 
-function erstelleSpielerliste(spiel) {
-  const spieler = holeSpieler(spiel);
-
-  if (spieler.length === 0) {
-    return `
-      <span class="live-keine-spieler">
-        Spieler noch nicht eingetragen
-      </span>
-    `;
-  }
-
-  return spieler
-    .map(
-      (name) => `
-        <span class="live-spieler-name">
-          ${sichererText(name)}
-        </span>
-      `
-    )
-    .join("");
-}
-
 function erstelleSpielkarte(spiel) {
   const runde = leseSpielwert(
     spiel,
@@ -113,12 +91,6 @@ function erstelleSpielkarte(spiel) {
     spiel,
     ["tisch", "Tisch"],
     "-"
-  );
-
-  const teamname = leseSpielwert(
-    spiel,
-    ["teamname", "Teamname"],
-    "Team noch offen"
   );
 
   const status = leseSpielwert(
@@ -167,10 +139,6 @@ function erstelleSpielkarte(spiel) {
         </div>
 
         <div class="live-team">
-          <div class="live-teamname">
-            ${sichererText(teamname)}
-          </div>
-
           <div class="live-spieler">
             ${erstelleSpielerliste(spiel)}
           </div>
