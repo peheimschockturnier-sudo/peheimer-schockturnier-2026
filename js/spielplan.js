@@ -1,5 +1,4 @@
-const SPIELPLAN_URL =
-  "https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";
+const SPIELPLAN_URL="https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";
 
 const AKTUALISIERUNG_MS = 60000;
 
@@ -27,7 +26,13 @@ function ermittleStatusklasse(status) {
     return "status-aktiv";
   }
 
-  if (istStatus(status, ["beendet", "fertig", "abgeschlossen"])) {
+  if (
+    istStatus(status, [
+      "beendet",
+      "fertig",
+      "abgeschlossen"
+    ])
+  ) {
     return "status-beendet";
   }
 
@@ -43,7 +48,13 @@ function ermittleStatussymbol(status) {
     return "●";
   }
 
-  if (istStatus(status, ["beendet", "fertig", "abgeschlossen"])) {
+  if (
+    istStatus(status, [
+      "beendet",
+      "fertig",
+      "abgeschlossen"
+    ])
+  ) {
     return "✓";
   }
 
@@ -54,7 +65,11 @@ function ermittleStatussymbol(status) {
   return "○";
 }
 
-function leseSpielwert(spiel, varianten, standardwert = "") {
+function leseSpielwert(
+  spiel,
+  varianten,
+  standardwert = ""
+) {
   for (const variante of varianten) {
     const wert = spiel[variante];
 
@@ -72,12 +87,51 @@ function leseSpielwert(spiel, varianten, standardwert = "") {
 
 function holeSpieler(spiel) {
   return [
-    leseSpielwert(spiel, ["spieler1", "Spieler1", "Spieler 1"]),
-    leseSpielwert(spiel, ["spieler2", "Spieler2", "Spieler 2"]),
-    leseSpielwert(spiel, ["spieler3", "Spieler3", "Spieler 3"]),
-    leseSpielwert(spiel, ["spieler4", "Spieler4", "Spieler 4"]),
-    leseSpielwert(spiel, ["spieler5", "Spieler5", "Spieler 5"])
-  ].filter((spieler) => String(spieler).trim() !== "");
+    leseSpielwert(
+      spiel,
+      ["spieler1", "Spieler1", "Spieler 1"]
+    ),
+    leseSpielwert(
+      spiel,
+      ["spieler2", "Spieler2", "Spieler 2"]
+    ),
+    leseSpielwert(
+      spiel,
+      ["spieler3", "Spieler3", "Spieler 3"]
+    ),
+    leseSpielwert(
+      spiel,
+      ["spieler4", "Spieler4", "Spieler 4"]
+    ),
+    leseSpielwert(
+      spiel,
+      ["spieler5", "Spieler5", "Spieler 5"]
+    )
+  ].filter(
+    (spieler) => String(spieler).trim() !== ""
+  );
+}
+
+function erstelleSpielerliste(spiel) {
+  const spieler = holeSpieler(spiel);
+
+  if (spieler.length === 0) {
+    return `
+      <span class="live-keine-spieler">
+        Spieler noch nicht eingetragen
+      </span>
+    `;
+  }
+
+  return spieler
+    .map(
+      (name) => `
+        <span class="live-spieler-name">
+          ${sichererText(name)}
+        </span>
+      `
+    )
+    .join("");
 }
 
 function erstelleSpielkarte(spiel) {
@@ -99,8 +153,11 @@ function erstelleSpielkarte(spiel) {
     "Geplant"
   );
 
-  const statusklasse = ermittleStatusklasse(status);
-  const statussymbol = ermittleStatussymbol(status);
+  const statusklasse =
+    ermittleStatusklasse(status);
+
+  const statussymbol =
+    ermittleStatussymbol(status);
 
   const istLive = istStatus(
     status,
@@ -108,7 +165,9 @@ function erstelleSpielkarte(spiel) {
   );
 
   return `
-    <article class="live-spielkarte ${istLive ? "ist-live" : ""}">
+    <article class="live-spielkarte ${
+      istLive ? "ist-live" : ""
+    }">
       <div class="live-spielkopf">
         <div class="live-runde">
           ${sichererText(runde)}
@@ -130,7 +189,9 @@ function erstelleSpielkarte(spiel) {
           <span class="live-tisch-icon">🎲</span>
 
           <div>
-            <span class="live-tisch-label">Tisch</span>
+            <span class="live-tisch-label">
+              Tisch
+            </span>
 
             <strong class="live-tisch-nummer">
               ${sichererText(tisch)}
@@ -150,27 +211,35 @@ function erstelleSpielkarte(spiel) {
 
 function sortiereSpiele(spiele) {
   const reihenfolge = {
-    "läuft": 1,
-    "laeuft": 1,
-    "laufend": 1,
-    "geplant": 2,
-    "offen": 2,
-    "pausiert": 3,
-    "verschoben": 3,
-    "beendet": 4,
-    "fertig": 4,
-    "abgeschlossen": 4
+    läuft: 1,
+    laeuft: 1,
+    laufend: 1,
+    geplant: 2,
+    offen: 2,
+    pausiert: 3,
+    verschoben: 3,
+    beendet: 4,
+    fertig: 4,
+    abgeschlossen: 4
   };
 
   return [...spiele].sort((a, b) => {
     const statusA = String(
-      leseSpielwert(a, ["status", "Status"], "geplant")
+      leseSpielwert(
+        a,
+        ["status", "Status"],
+        "geplant"
+      )
     )
       .trim()
       .toLowerCase();
 
     const statusB = String(
-      leseSpielwert(b, ["status", "Status"], "geplant")
+      leseSpielwert(
+        b,
+        ["status", "Status"],
+        "geplant"
+      )
     )
       .trim()
       .toLowerCase();
@@ -191,7 +260,8 @@ function formatiereUhrzeit() {
 }
 
 async function ladeSpielplan() {
-  const container = document.getElementById("spielplanTabelle");
+  const container =
+    document.getElementById("spielplanTabelle");
 
   if (!container) {
     console.error(
@@ -221,7 +291,6 @@ async function ladeSpielplan() {
     const data = await response.json();
 
     console.log("Spielplan-Daten:", data);
-    console.log("Erstes Spiel:", data.spiele?.[0]);
 
     if (!Array.isArray(data.spiele)) {
       throw new Error(
@@ -239,40 +308,44 @@ async function ladeSpielplan() {
           </h3>
 
           <p>
-            Sobald die Begegnungen feststehen, werden sie hier angezeigt.
+            Sobald die Begegnungen feststehen,
+            werden sie hier angezeigt.
           </p>
         </div>
       `;
       return;
     }
 
-    const spiele = sortiereSpiele(data.spiele);
+    const spiele =
+      sortiereSpiele(data.spiele);
 
-    const laufendeSpiele = spiele.filter((spiel) => {
-      const status = leseSpielwert(
-        spiel,
-        ["status", "Status"],
-        "Geplant"
-      );
+    const laufendeSpiele =
+      spiele.filter((spiel) => {
+        const status = leseSpielwert(
+          spiel,
+          ["status", "Status"],
+          "Geplant"
+        );
 
-      return istStatus(
-        status,
-        ["läuft", "laeuft", "laufend"]
-      );
-    });
+        return istStatus(
+          status,
+          ["läuft", "laeuft", "laufend"]
+        );
+      });
 
-    const weitereSpiele = spiele.filter((spiel) => {
-      const status = leseSpielwert(
-        spiel,
-        ["status", "Status"],
-        "Geplant"
-      );
+    const weitereSpiele =
+      spiele.filter((spiel) => {
+        const status = leseSpielwert(
+          spiel,
+          ["status", "Status"],
+          "Geplant"
+        );
 
-      return !istStatus(
-        status,
-        ["läuft", "laeuft", "laufend"]
-      );
-    });
+        return !istStatus(
+          status,
+          ["läuft", "laeuft", "laufend"]
+        );
+      });
 
     let html = `
       <div class="live-tafel">
@@ -283,7 +356,8 @@ async function ladeSpielplan() {
           </div>
 
           <div class="live-aktualisierung">
-            Automatische Aktualisierung alle 60 Sekunden
+            Automatische Aktualisierung
+            alle 60 Sekunden
           </div>
         </div>
     `;
@@ -332,14 +406,19 @@ async function ladeSpielplan() {
     html += `
         <div class="live-fuss">
           Zuletzt aktualisiert:
-          <strong>${formatiereUhrzeit()} Uhr</strong>
+          <strong>
+            ${formatiereUhrzeit()} Uhr
+          </strong>
         </div>
       </div>
     `;
 
     container.innerHTML = html;
   } catch (error) {
-    console.error("Spielplan-Fehler:", error);
+    console.error(
+      "Spielplan-Fehler:",
+      error
+    );
 
     container.innerHTML = `
       <div class="live-fehler">
@@ -350,7 +429,8 @@ async function ladeSpielplan() {
         </h3>
 
         <p>
-          Bitte lade die Seite in einigen Sekunden erneut.
+          Bitte lade die Seite in einigen
+          Sekunden erneut.
         </p>
       </div>
     `;
