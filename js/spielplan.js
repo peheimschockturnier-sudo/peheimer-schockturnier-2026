@@ -1,5 +1,10 @@
-const SPIELPLAN_URL="https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";
+const SPIELPLAN_URL =
+  "https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";
+
+const AKTUALISIERUNG_MS = 60000;
+
 console.log("spielplan.js wurde erfolgreich geladen");
+
 function sichererText(wert) {
   return String(wert ?? "")
     .replaceAll("&", "&amp;")
@@ -9,15 +14,230 @@ function sichererText(wert) {
     .replaceAll("'", "&#039;");
 }
 
+function istStatus(status, suchwerte) {
+  const normalisiert = String(status || "")
+    .trim()
+    .toLowerCase();
+
+  return suchwerte.includes(normalisiert);
+}
+
+function ermittleStatusklasse(status) {
+  if (istStatus(status, ["läuft", "laeuft", "laufend"])) {
+    return "status-aktiv";
+  }
+
+  if (istStatus(status, ["beendet", "fertig", "abgeschlossen"])) {
+    return "status-beendet";
+  }
+
+  if (istStatus(status, ["pausiert", "verschoben"])) {
+    return "status-pausiert";
+  }
+
+  return "status-geplant";
+}
+
+function ermittleStatussymbol(status) {
+  if (istStatus(status, ["läuft", "laeuft", "laufend"])) {
+    return "●";
+  }
+
+  if (istStatus(status, ["beendet", "fertig", "abgeschlossen"])) {
+    return "✓";
+  }
+
+  if (istStatus(status, ["pausiert", "verschoben"])) {
+    return "‖";
+  }
+
+  return "○";
+}
+
+function leseSpielwert(spiel, varianten, standardwert = "") {
+  for (const variante of varianten) {
+    const wert = spiel[variante];
+
+    if (
+      wert !== undefined &&
+      wert !== null &&
+      String(wert).trim() !== ""
+    ) {
+      return wert;
+    }
+  }
+
+  return standardwert;
+}
+
+function holeSpieler(spiel) {
+  return [
+    leseSpielwert(spiel, ["spieler1", "Spieler1", "Spieler 1"]),
+    leseSpielwert(spiel, ["spieler2", "Spieler2", "Spieler 2"]),
+    leseSpielwert(spiel, ["spieler3", "Spieler3", "Spieler 3"]),
+    leseSpielwert(spiel, ["spieler4", "Spieler4", "Spieler 4"]),
+    leseSpielwert(spiel, ["spieler5", "Spieler5", "Spieler 5"])
+  ].filter((spieler) => String(spieler).trim() !== "");
+}
+
+function erstelleSpielerliste(spiel) {
+  const spieler = holeSpieler(spiel);
+
+  if (spieler.length === 0) {
+    return `
+      <span class="live-keine-spieler">
+        Spieler noch nicht eingetragen
+      </span>
+    `;
+  }
+
+  return spieler
+    .map(
+      (name) => `
+        <span class="live-spieler-name">
+          ${sichererText(name)}
+        </span>
+      `
+    )
+    .join("");
+}
+
+function erstelleSpielkarte(spiel) {
+  const runde = leseSpielwert(
+    spiel,
+    ["runde", "Runde"],
+    "Turnierspiel"
+  );
+
+  const tisch = leseSpielwert(
+    spiel,
+    ["tisch", "Tisch"],
+    "-"
+  );
+
+  const teamname = leseSpielwert(
+    spiel,
+    ["teamname", "Teamname"],
+    "Team noch offen"
+  );
+
+  const status = leseSpielwert(
+    spiel,
+    ["status", "Status"],
+    "Geplant"
+  );
+
+  const statusklasse = ermittleStatusklasse(status);
+  const statussymbol = ermittleStatussymbol(status);
+
+  const istLive = istStatus(
+    status,
+    ["läuft", "laeuft", "laufend"]
+  );
+
+  return `
+    <article class="live-spielkarte ${istLive ? "ist-live" : ""}">
+      <div class="live-spielkopf">
+        <div class="live-runde">
+          ${sichererText(runde)}
+        </div>
+
+        <div class="live-status ${statusklasse}">
+          <span class="live-status-symbol">
+            ${statussymbol}
+          </span>
+
+          <span>
+            ${sichererText(status)}
+          </span>
+        </div>
+      </div>
+
+      <div class="live-spielinhalt">
+        <div class="live-tisch">
+          <span class="live-tisch-icon">🎲</span>
+
+          <div>
+            <span class="live-tisch-label">Tisch</span>
+
+            <strong class="live-tisch-nummer">
+              ${sichererText(tisch)}
+            </strong>
+          </div>
+        </div>
+
+        <div class="live-team">
+          <div class="live-teamname">
+            ${sichererText(teamname)}
+          </div>
+
+          <div class="live-spieler">
+            ${erstelleSpielerliste(spiel)}
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function sortiereSpiele(spiele) {
+  const reihenfolge = {
+    "läuft": 1,
+    "laeuft": 1,
+    "laufend": 1,
+    "geplant": 2,
+    "offen": 2,
+    "pausiert": 3,
+    "verschoben": 3,
+    "beendet": 4,
+    "fertig": 4,
+    "abgeschlossen": 4
+  };
+
+  return [...spiele].sort((a, b) => {
+    const statusA = String(
+      leseSpielwert(a, ["status", "Status"], "geplant")
+    )
+      .trim()
+      .toLowerCase();
+
+    const statusB = String(
+      leseSpielwert(b, ["status", "Status"], "geplant")
+    )
+      .trim()
+      .toLowerCase();
+
+    return (
+      (reihenfolge[statusA] || 2) -
+      (reihenfolge[statusB] || 2)
+    );
+  });
+}
+
+function formatiereUhrzeit() {
+  return new Intl.DateTimeFormat("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }).format(new Date());
+}
+
 async function ladeSpielplan() {
   const container = document.getElementById("spielplanTabelle");
 
   if (!container) {
-    console.error("Element #spielplanTabelle wurde nicht gefunden.");
+    console.error(
+      "Element #spielplanTabelle wurde nicht gefunden."
+    );
     return;
   }
 
-  container.innerHTML = "<p>Spielplan wird geladen ...</p>";
+  container.innerHTML = `
+    <div class="live-ladeanzeige">
+      <div class="live-loader"></div>
+      <p>Live-Spielplan wird geladen …</p>
+    </div>
+  `;
 
   try {
     const response = await fetch(SPIELPLAN_URL, {
@@ -25,7 +245,9 @@ async function ladeSpielplan() {
     });
 
     if (!response.ok) {
-      throw new Error("HTTP-Fehler: " + response.status);
+      throw new Error(
+        "HTTP-Fehler: " + response.status
+      );
     }
 
     const data = await response.json();
@@ -34,122 +256,145 @@ async function ladeSpielplan() {
     console.log("Erstes Spiel:", data.spiele?.[0]);
 
     if (!Array.isArray(data.spiele)) {
-      throw new Error("Ungültige Antwort: 'spiele' fehlt.");
+      throw new Error(
+        "Ungültige Antwort: 'spiele' fehlt."
+      );
     }
 
     if (data.spiele.length === 0) {
-      container.innerHTML =
-        "<p>Der Spielplan wird bald veröffentlicht.</p>";
+      container.innerHTML = `
+        <div class="live-leer">
+          <span class="live-leer-symbol">🎲</span>
+
+          <h3>
+            Der Spielplan wird bald veröffentlicht.
+          </h3>
+
+          <p>
+            Sobald die Begegnungen feststehen, werden sie hier angezeigt.
+          </p>
+        </div>
+      `;
       return;
     }
 
-    let html = `
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Runde</th>
-              <th>Tisch</th>
-              <th>Teamname</th>
-              <th>Spieler 1</th>
-              <th>Spieler 2</th>
-              <th>Spieler 3</th>
-              <th>Spieler 4</th>
-              <th>Spieler 5</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-    `;
+    const spiele = sortiereSpiele(data.spiele);
 
-    data.spiele.forEach((spiel) => {
-      const status = String(
-        spiel.status ??
-        spiel.Status ??
+    const laufendeSpiele = spiele.filter((spiel) => {
+      const status = leseSpielwert(
+        spiel,
+        ["status", "Status"],
         "Geplant"
-      ).trim();
+      );
 
-      let badgeClass = "badge geplant";
-
-      if (status.toLowerCase() === "läuft") {
-        badgeClass = "badge laeuft";
-      } else if (status.toLowerCase() === "beendet") {
-        badgeClass = "badge beendet";
-      }
-
-      const runde = spiel.runde ?? spiel.Runde ?? "";
-      const tisch = spiel.tisch ?? spiel.Tisch ?? "";
-      const teamname =
-        spiel.teamname ??
-        spiel.Teamname ??
-        spiel["Teamname"] ??
-        "";
-
-      const spieler1 =
-        spiel.spieler1 ??
-        spiel.Spieler1 ??
-        spiel["Spieler 1"] ??
-        "";
-
-      const spieler2 =
-        spiel.spieler2 ??
-        spiel.Spieler2 ??
-        spiel["Spieler 2"] ??
-        "";
-
-      const spieler3 =
-        spiel.spieler3 ??
-        spiel.Spieler3 ??
-        spiel["Spieler 3"] ??
-        "";
-
-      const spieler4 =
-        spiel.spieler4 ??
-        spiel.Spieler4 ??
-        spiel["Spieler 4"] ??
-        "";
-
-      const spieler5 =
-        spiel.spieler5 ??
-        spiel.Spieler5 ??
-        spiel["Spieler 5"] ??
-        "";
-
-      html += `
-        <tr>
-          <td>${sichererText(runde)}</td>
-          <td>${sichererText(tisch)}</td>
-          <td>${sichererText(teamname)}</td>
-          <td>${sichererText(spieler1)}</td>
-          <td>${sichererText(spieler2)}</td>
-          <td>${sichererText(spieler3)}</td>
-          <td>${sichererText(spieler4)}</td>
-          <td>${sichererText(spieler5)}</td>
-          <td>
-            <span class="${badgeClass}">
-              ${sichererText(status)}
-            </span>
-          </td>
-        </tr>
-      `;
+      return istStatus(
+        status,
+        ["läuft", "laeuft", "laufend"]
+      );
     });
 
+    const weitereSpiele = spiele.filter((spiel) => {
+      const status = leseSpielwert(
+        spiel,
+        ["status", "Status"],
+        "Geplant"
+      );
+
+      return !istStatus(
+        status,
+        ["läuft", "laeuft", "laufend"]
+      );
+    });
+
+    let html = `
+      <div class="live-tafel">
+        <div class="live-tafel-kopf">
+          <div class="live-tafel-titel">
+            <span class="live-punkt"></span>
+            Live-Turnierübersicht
+          </div>
+
+          <div class="live-aktualisierung">
+            Automatische Aktualisierung alle 60 Sekunden
+          </div>
+        </div>
+    `;
+
+    if (laufendeSpiele.length > 0) {
+      html += `
+        <section class="live-gruppe">
+          <h3 class="live-gruppen-titel">
+            <span class="live-punkt"></span>
+            Aktuell laufende Spiele
+          </h3>
+
+          <div class="live-karten-grid">
+      `;
+
+      laufendeSpiele.forEach((spiel) => {
+        html += erstelleSpielkarte(spiel);
+      });
+
+      html += `
+          </div>
+        </section>
+      `;
+    }
+
+    if (weitereSpiele.length > 0) {
+      html += `
+        <section class="live-gruppe">
+          <h3 class="live-gruppen-titel">
+            Weitere Begegnungen
+          </h3>
+
+          <div class="live-karten-grid">
+      `;
+
+      weitereSpiele.forEach((spiel) => {
+        html += erstelleSpielkarte(spiel);
+      });
+
+      html += `
+          </div>
+        </section>
+      `;
+    }
+
     html += `
-          </tbody>
-        </table>
+        <div class="live-fuss">
+          Zuletzt aktualisiert:
+          <strong>${formatiereUhrzeit()} Uhr</strong>
+        </div>
       </div>
     `;
 
     container.innerHTML = html;
-
   } catch (error) {
     console.error("Spielplan-Fehler:", error);
 
-    container.innerHTML =
-      "<p>❌ Spielplan konnte nicht geladen werden.</p>";
+    container.innerHTML = `
+      <div class="live-fehler">
+        <span class="live-fehler-symbol">❌</span>
+
+        <h3>
+          Spielplan konnte nicht geladen werden
+        </h3>
+
+        <p>
+          Bitte lade die Seite in einigen Sekunden erneut.
+        </p>
+      </div>
+    `;
   }
 }
 
-document.addEventListener("DOMContentLoaded", ladeSpielplan);
+document.addEventListener(
+  "DOMContentLoaded",
+  ladeSpielplan
+);
 
-setInterval(ladeSpielplan, 60000);
+setInterval(
+  ladeSpielplan,
+  AKTUALISIERUNG_MS
+);
