@@ -259,3 +259,320 @@
 }
 
 }
+
+/* ==========================================
+   BUNDESLIGA-LIVE-TAFEL
+========================================== */
+
+.spielplan-section {
+  width: min(1500px, 95%);
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+#spielplanTabelle {
+  width: 100%;
+}
+
+.live-tafel {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 26px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.11),
+      rgba(255, 255, 255, 0.05)
+    );
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px);
+}
+
+.live-tafel-kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 30px;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.18);
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.live-punkt {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: #2ee46f;
+  box-shadow: 0 0 0 7px rgba(46, 228, 111, 0.12);
+  animation: livePuls 1.4s infinite;
+}
+
+.live-aktualisierung {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.live-gruppe {
+  padding: 24px;
+}
+
+.live-gruppe + .live-gruppe {
+  padding-top: 4px;
+}
+
+.live-gruppen-titel {
+  margin: 0 0 18px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.live-spielkarte {
+  margin-bottom: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-left: 7px solid rgba(255, 255, 255, 0.28);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.live-spielkarte:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
+}
+
+.live-spielkarte.ist-live {
+  border-left-color: #2ee46f;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(46, 228, 111, 0.16),
+      rgba(255, 255, 255, 0.08)
+    );
+}
+
+.live-spielkopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.live-runde {
+  color: #ffb347;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 125px;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.live-status span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.live-status.geplant-status {
+  color: #0f6670;
+  background: #ffffff;
+}
+
+.live-status.live-status {
+  color: #10231a;
+  background: #2ee46f;
+  box-shadow: 0 0 0 6px rgba(46, 228, 111, 0.12);
+}
+
+.live-status.fertig-status {
+  color: #ffffff;
+  background: #52616b;
+}
+
+.live-spielinhalt {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
+  align-items: center;
+  padding: 24px 26px;
+}
+
+.live-tisch {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 12px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.live-tisch-icon {
+  grid-row: span 2;
+  font-size: 38px;
+}
+
+.live-tisch span:not(.live-tisch-icon) {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.live-tisch strong {
+  color: #ffffff;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.live-teamname {
+  margin-bottom: 13px;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.live-spieler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.live-spieler span {
+  padding: 8px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.live-fuss {
+  padding: 16px 26px;
+  color: rgba(255, 255, 255, 0.58);
+  background: rgba(0, 0, 0, 0.14);
+  font-size: 14px;
+  text-align: right;
+}
+
+.live-ladeanzeige,
+.live-leer,
+.live-fehler {
+  padding: 55px 25px;
+  border-radius: 24px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.live-leer span,
+.live-fehler span {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 48px;
+}
+
+.live-loader {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 18px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #ffb347;
+  border-radius: 50%;
+  animation: liveDrehen 0.8s linear infinite;
+}
+
+@keyframes livePuls {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+@keyframes liveDrehen {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  .spielplan-section {
+    width: 94%;
+  }
+
+  .live-tafel-kopf {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .live-gruppe {
+    padding: 16px;
+  }
+
+  .live-spielkopf {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .live-spielinhalt {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 21px;
+  }
+
+  .live-tisch {
+    grid-template-columns: auto auto 1fr;
+  }
+
+  .live-tisch-icon {
+    grid-row: auto;
+  }
+
+  .live-tisch strong {
+    font-size: 28px;
+  }
+
+  .live-teamname {
+    font-size: 24px;
+  }
+
+  .live-status {
+    min-width: 110px;
+    font-size: 14px;
+  }
+
+  .live-spieler span {
+    font-size: 14px;
+  }
+}
