@@ -106,6 +106,10 @@ function holeSpieler(spiel) {
     leseSpielwert(
       spiel,
       ["spieler5", "Spieler5", "Spieler 5"]
+    ),
+    leseSpielwert(
+      spiel,
+      ["spieler6", "Spieler6", "Spieler 6"]
     )
   ].filter(
     (spieler) => String(spieler).trim() !== ""
