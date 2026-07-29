@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Anmeldung | 2. Peheimer Schock Turnier</title>
 
   <link rel="stylesheet" href="css/style.css">
@@ -12,71 +13,175 @@
 
 <section class="section anmeldung-page">
 
+  <!-- Bereich vor dem 01.09.2026 -->
   <div id="anmeldungGesperrt" class="status-card">
     <h2>🎲 Anmeldung</h2>
+
     <h1>Anmeldung startet am</h1>
     <h2>01.09.2026</h2>
 
     <p>
-      Die Anmeldung zum 2. Peheimer Schock Turnier ist derzeit noch nicht freigeschaltet.
+      Die Anmeldung zum 2. Peheimer Schock Turnier
+      ist derzeit noch nicht freigeschaltet.
     </p>
 
-    <div id="countdownFreigabe" class="freigabe-countdown"></div>
+    <div
+      id="countdownFreigabe"
+      class="freigabe-countdown">
+    </div>
 
     <div class="hero-buttons">
-      <a href="index.html" class="btn primary">Zur Startseite</a>
-      <a href="downloads/Turnierordnung.pdf" class="btn secondary" target="_blank">
+      <a href="index.html" class="btn primary">
+        Zur Startseite
+      </a>
+
+      <a
+        href="downloads/Turnierordnung.pdf"
+        class="btn secondary"
+        target="_blank"
+        rel="noopener">
         Turnierordnung ansehen
       </a>
     </div>
   </div>
 
-  <div id="formularBereich" class="status-card" style="display:none;">
+
+  <!-- Anmeldeformular ab dem 01.09.2026 -->
+  <div
+    id="formularBereich"
+    class="status-card"
+    style="display:none;">
+
     <h2>🎲 Anmeldung</h2>
-    <p class="lead">Meldet eure Gruppe verbindlich zum 2. Peheimer Schock Turnier an.</p>
+
+    <p class="lead">
+      Meldet euer Team verbindlich zum
+      2. Peheimer Schock Turnier an.
+    </p>
+
+    <div id="anmeldeStatusHinweis" class="anmelde-hinweis">
+      Es stehen insgesamt 24 feste Startplätze zur Verfügung.
+      Sind diese vergeben, werden weitere Teams automatisch
+      auf die Warteliste gesetzt.
+    </div>
 
     <form id="anmeldungForm" class="form-card">
-      <input type="text" name="vorname" placeholder="Vorname" required>
-      <input type="text" name="nachname" placeholder="Nachname" required>
-      <input type="tel" name="telefon" placeholder="Telefonnummer" required>
-      <input type="email" name="email" placeholder="E-Mail-Adresse" required>
-      <input type="text" name="teamname" placeholder="Gruppenname / Teamname" required>
 
-      <input type="text" name="spieler1" placeholder="Mitspieler 1">
-      <input type="text" name="spieler2" placeholder="Mitspieler 2">
-      <input type="text" name="spieler3" placeholder="Mitspieler 3">
-      <input type="text" name="spieler4" placeholder="Mitspieler 4">
+      <input
+        type="text"
+        name="vorname"
+        placeholder="Vorname der Kontaktperson"
+        autocomplete="given-name"
+        required>
 
-   <label class="check">
-    <input type="checkbox" required>
+      <input
+        type="text"
+        name="nachname"
+        placeholder="Nachname der Kontaktperson"
+        autocomplete="family-name"
+        required>
 
-    Ich habe die
-    <strong>
-        <a href="downloads/Turnierordnung.pdf" target="_blank">
-            Turnierordnung
-        </a>
-    </strong>
-    sowie die
-    <strong>
-        <a href="datenschutz.html" target="_blank">
-            Datenschutzhinweise
-        </a>
-    </strong>
-    gelesen und akzeptiere diese.
-</label>
+      <input
+        type="tel"
+        name="telefon"
+        placeholder="Telefonnummer"
+        autocomplete="tel"
+        required>
 
-      <button type="submit" class="btn primary">Jetzt verbindlich anmelden</button>
+      <input
+        type="email"
+        name="email"
+        placeholder="E-Mail-Adresse"
+        autocomplete="email"
+        required>
+
+      <input
+        type="text"
+        name="teamname"
+        placeholder="Gruppenname / Teamname"
+        required>
+
+      <input
+        type="text"
+        name="spieler1"
+        placeholder="Spieler 1"
+        required>
+
+      <input
+        type="text"
+        name="spieler2"
+        placeholder="Spieler 2"
+        required>
+
+      <input
+        type="text"
+        name="spieler3"
+        placeholder="Spieler 3"
+        required>
+
+      <input
+        type="text"
+        name="spieler4"
+        placeholder="Spieler 4"
+        required>
+
+      <label class="check">
+        <input
+          type="checkbox"
+          name="datenschutzAkzeptiert"
+          required>
+
+        <span>
+          Ich habe die
+          <strong>
+            <a
+              href="downloads/Turnierordnung.pdf"
+              target="_blank"
+              rel="noopener">
+              Turnierordnung
+            </a>
+          </strong>
+          sowie die
+          <strong>
+            <a
+              href="datenschutz.html"
+              target="_blank"
+              rel="noopener">
+              Datenschutzhinweise
+            </a>
+          </strong>
+          gelesen und akzeptiere diese.
+        </span>
+      </label>
+
+      <button
+        id="anmeldungButton"
+        type="submit"
+        class="btn primary">
+
+        Jetzt verbindlich anmelden
+      </button>
+
     </form>
 
-    <div id="meldung"></div>
+    <div
+      id="meldung"
+      class="anmelde-meldung"
+      aria-live="polite">
+    </div>
 
-    <a href="index.html" class="btn secondary space-top">Zurück zur Startseite</a>
+    <a
+      href="index.html"
+      class="btn secondary space-top">
+      Zurück zur Startseite
+    </a>
+
   </div>
 
 </section>
 
-<script src="js/freigabe.js"></script>
-<script src="js/anmeldung.js"></script>
+<script src="js/freigabe.js?v=13"></script>
+<script src="js/anmeldung.js?v=13"></script>
 
 </body>
 </html>
