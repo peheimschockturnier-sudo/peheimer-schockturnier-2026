@@ -280,7 +280,23 @@ async function ladeSpielplan() {
   `;
 
   try {
-    const response = await fetch(SPIELPLAN_URL, {
+    if (!window.WEBAPP_URL) {
+      throw new Error(
+        "Die Web-App-URL wurde nicht geladen."
+      );
+    }
+
+    const spielplanUrl =
+      window.WEBAPP_URL +
+      "?action=spielplan&t=" +
+      Date.now();
+
+    console.log(
+      "Spielplan wird geladen von:",
+      spielplanUrl
+    );
+
+    const response = await fetch(spielplanUrl, {
       cache: "no-store"
     });
 
@@ -294,11 +310,20 @@ async function ladeSpielplan() {
 
     console.log("Spielplan-Daten:", data);
 
+    if (data.erfolg === false) {
+      throw new Error(
+        data.fehler ||
+        "Der Spielplan konnte nicht geladen werden."
+      );
+    }
+
     if (!Array.isArray(data.spiele)) {
       throw new Error(
         "Ungültige Antwort: 'spiele' fehlt."
       );
     }
+
+    // Dein restlicher Code bleibt unverändert.
 
     if (data.spiele.length === 0) {
       container.innerHTML = `
