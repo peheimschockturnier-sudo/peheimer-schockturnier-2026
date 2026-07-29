@@ -1,8 +1,6 @@
 const TESTMODUS = true;
 const FREIGABE_DATUM = new Date("2026-09-01T00:00:00");
 
-const WEBAPP_URL="https://script.google.com/macros/s/AKfycbyC8HVOroZPdbWHKviQmz-lieJTwoJYAyyUZWCq_Ew4qC72XInFMHO1SQBpHdl1agMqrA/exec";
-
 const anmeldungGesperrt =
   document.getElementById("anmeldungGesperrt");
 
