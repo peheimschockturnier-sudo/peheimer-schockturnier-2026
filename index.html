@@ -42,7 +42,7 @@
         <article class="card"><span>📅</span><h3>Datum</h3><p>10.10.2026</p></article>
         <article class="card"><span>📍</span><h3>Ort</h3><p>Sportheim Peheim</p></article>
         <article class="card"><span>💶</span><h3>Startgeld</h3><p>10 €</p></article>
-        <article class="card"><span>👥</span><h3>Teilnehmer</h3><p>Maximal 30 Gruppen</p></article>
+        <article class="card"><span>👥</span><h3>Teilnehmer</h3><p>Maximal 24 Gruppen</p></article>
       </div>
     </section>
 
@@ -50,6 +50,7 @@
   <h2>Anmeldestatus</h2>
 
   <div class="status-card">
+
     <div class="circle">
       <svg viewBox="0 0 180 180">
         <circle cx="90" cy="90" r="75"></circle>
@@ -58,17 +59,42 @@
 
       <div class="circle-text">
         <span id="teilnehmerzahl">0</span>
-        <small>von 24 Gruppen</small>
+        <small>
+          von <span id="maxGruppenAnzeige">24</span> Gruppen
+        </small>
       </div>
     </div>
 
-    <h3 id="statusText">Lade Gruppenanzahl ...</h3>
+    <h3 id="statusText">
+      Lade Gruppenanzahl...
+    </h3>
+
     <p id="spielerText" class="spieler-text"></p>
 
     <div class="progress">
       <div id="progressBar"></div>
     </div>
+
+    <!-- Anmeldung -->
+    <div class="status-anmeldung">
+
+      <h3>🎲 Jetzt Team anmelden</h3>
+
+      <p>
+        Sichere euch einen der
+        <strong>24 Startplätze</strong>
+        beim
+        <strong>2. Peheimer Schock Turnier</strong>.
+      </p>
+
+      <a href="anmeldung.html" class="btn primary anmelden-btn">
+        Jetzt anmelden
+      </a>
+
+    </div>
+
   </div>
+
 </section>
 
     <section id="spielregeln" class="section">
