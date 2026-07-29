@@ -1,5 +1,3 @@
-const SPIELPLAN_URL="https://script.google.com/macros/s/AKfycbyC8HVOroZPdbWHKviQmz-lieJTwoJYAyyUZWCq_Ew4qC72XInFMHO1SQBpHdl1agMqrA/exec?action=spielplan";
-
 const AKTUALISIERUNG_MS = 60000;
 
 console.log("spielplan.js wurde erfolgreich geladen");
