@@ -1,4 +1,4 @@
-const SPIELPLAN_URL="https://script.google.com/macros/s/AKfycbwu4sHhqYM3Q3BYzdVaC5HfrpzCsssnX1_CAmwh23-Fla8z2E6YxvrxqyRva8fmEGIe/exec?action=spielplan";
+const SPIELPLAN_URL="https://script.google.com/macros/s/AKfycbyC8HVOroZPdbWHKviQmz-lieJTwoJYAyyUZWCq_Ew4qC72XInFMHO1SQBpHdl1agMqrA/exec";
 
 const AKTUALISIERUNG_MS = 60000;
 
