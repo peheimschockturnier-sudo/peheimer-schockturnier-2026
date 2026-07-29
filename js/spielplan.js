@@ -464,10 +464,15 @@ async function ladeSpielplan() {
   }
 }
 
-document.addEventListener(
-  "DOMContentLoaded",
-  ladeSpielplan
-);
+document.addEventListener("DOMContentLoaded", function () {
+
+    ladeSpielplan();
+
+    setInterval(function () {
+        ladeSpielplan();
+    }, AKTUALISIERUNG_MS);
+
+});
 
 setInterval(
   ladeSpielplan,
