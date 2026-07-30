@@ -1721,3 +1721,34 @@
     text-align: left;
   }
 }
+/* =========================================
+   Navigation bei vielen Menüpunkten
+========================================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-links li {
+  flex: 0 0 auto;
+}
+
+.nav-links a {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
