@@ -1,4 +1,4 @@
-console.log("rangliste.js wurde geladen");
+console.log("rangliste.js Version 31 wurde geladen");
 
 const RANGLISTE_AKTUALISIERUNG_MS = 60000;
 
@@ -60,27 +60,19 @@ function erstelleRangzeile(eintrag) {
       </td>
 
       <td class="rang-spieler">
-        ${rangSichererText(
-          eintrag.spieler || "Unbekannt"
-        )}
+        ${rangSichererText(eintrag.spieler || "Unbekannt")}
       </td>
 
       <td class="rang-team">
-        ${rangSichererText(
-          eintrag.teamname || "-"
-        )}
+        ${rangSichererText(eintrag.teamname || "-")}
       </td>
 
       <td>
-        ${rangSichererText(
-          eintrag.punkte || "0"
-        )}
+        ${rangSichererText(eintrag.punkte || "0")}
       </td>
 
       <td>
-        ${rangSichererText(
-          eintrag.schockOuts || "0"
-        )}
+        ${rangSichererText(eintrag.schockOuts || "0")}
       </td>
     </tr>
   `;
@@ -95,21 +87,18 @@ function formatiereRanglistenUhrzeit() {
 }
 
 async function ladeRangliste() {
-  const container =
-    document.getElementById("ranglisteContainer");
+  const container = document.getElementById("ranglisteContainer");
 
   if (!container) {
-    console.error(
-      "Element ranglisteContainer wurde nicht gefunden."
-    );
+    console.error("ranglisteContainer wurde nicht gefunden.");
     return;
   }
 
   try {
+    console.log("WEBAPP_URL:", window.WEBAPP_URL);
+
     if (!window.WEBAPP_URL) {
-      throw new Error(
-        "WEBAPP_URL wurde nicht geladen. Prüfe config.js."
-      );
+      throw new Error("WEBAPP_URL fehlt. config.js prüfen.");
     }
 
     const url =
@@ -117,17 +106,14 @@ async function ladeRangliste() {
       "?action=rangliste&t=" +
       Date.now();
 
-    console.log("Rangliste wird geladen:", url);
+    console.log("Rangliste wird abgerufen:", url);
 
     const response = await fetch(url, {
-      method: "GET",
       cache: "no-store"
     });
 
     if (!response.ok) {
-      throw new Error(
-        "HTTP-Fehler " + response.status
-      );
+      throw new Error("HTTP-Fehler: " + response.status);
     }
 
     const data = await response.json();
@@ -136,14 +122,13 @@ async function ladeRangliste() {
 
     if (data.erfolg === false) {
       throw new Error(
-        data.fehler ||
-        "Die Rangliste konnte nicht geladen werden."
+        data.fehler || "Rangliste konnte nicht geladen werden."
       );
     }
 
     if (!Array.isArray(data.rangliste)) {
       throw new Error(
-        "In der Antwort fehlt das Feld 'rangliste'."
+        "Die Antwort enthält kein gültiges Feld 'rangliste'."
       );
     }
 
@@ -153,16 +138,15 @@ async function ladeRangliste() {
           <span>🏅</span>
           <h3>Die Rangliste ist noch leer</h3>
           <p>
-            Sobald Ergebnisse eingetragen sind,
-            erscheinen sie hier.
+            Sobald Ergebnisse vorhanden sind,
+            werden sie hier angezeigt.
           </p>
         </div>
       `;
       return;
     }
 
-    const rangliste =
-      sortiereRangliste(data.rangliste);
+    const rangliste = sortiereRangliste(data.rangliste);
 
     container.innerHTML = `
       <div class="rangliste-rahmen">
@@ -190,21 +174,18 @@ async function ladeRangliste() {
             </thead>
 
             <tbody>
-              ${rangliste
-                .map(erstelleRangzeile)
-                .join("")}
+              ${rangliste.map(erstelleRangzeile).join("")}
             </tbody>
           </table>
         </div>
 
         <div class="rangliste-fuss">
           Zuletzt aktualisiert:
-          <strong>
-            ${formatiereRanglistenUhrzeit()} Uhr
-          </strong>
+          <strong>${formatiereRanglistenUhrzeit()} Uhr</strong>
         </div>
       </div>
     `;
+
   } catch (error) {
     console.error("Ranglisten-Fehler:", error);
 
@@ -212,15 +193,15 @@ async function ladeRangliste() {
       <div class="rangliste-fehler">
         <span>❌</span>
         <h3>Rangliste konnte nicht geladen werden</h3>
-        <p>
-          ${rangSichererText(error.message)}
-        </p>
+        <p>${rangSichererText(error.message)}</p>
       </div>
     `;
   }
 }
 
 function starteRangliste() {
+  console.log("Rangliste wird gestartet");
+
   ladeRangliste();
 
   window.setInterval(
