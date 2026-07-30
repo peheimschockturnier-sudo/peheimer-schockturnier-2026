@@ -6,37 +6,24 @@ function erstelleRangzeile(eintrag) {
   return `
     <tr class="${klasse}">
       <td class="rang-platz">
-        <span class="rang-symbol">
-          ${symbol}
-        </span>
-
-        <strong>
-          ${rangSichererText(platz || "-")}
-        </strong>
+        <span class="rang-symbol">${symbol}</span>
+        <strong>${rangSichererText(platz || "-")}</strong>
       </td>
 
       <td class="rang-spieler">
-        ${rangSichererText(
-          eintrag.spieler || "Unbekannt"
-        )}
+        ${rangSichererText(eintrag.spieler || "Unbekannt")}
       </td>
 
       <td class="rang-team">
-        ${rangSichererText(
-          eintrag.teamname || "-"
-        )}
+        ${rangSichererText(eintrag.teamname || "-")}
       </td>
 
       <td>
-        ${rangSichererText(
-          eintrag.punkte || "0"
-        )}
+        ${rangSichererText(eintrag.punkte || "0")}
       </td>
 
       <td>
-        ${rangSichererText(
-          eintrag.schockOuts || "0"
-        )}
+        ${rangSichererText(eintrag.schockOuts || "0")}
       </td>
     </tr>
   `;
