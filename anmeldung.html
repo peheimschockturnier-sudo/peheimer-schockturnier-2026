@@ -65,18 +65,103 @@
     auf die Warteliste gesetzt.
   </div>
 
-  <form id="anmeldungForm" class="form-card">
+ <form id="anmeldungForm" class="form-card">
 
-    <!-- Deine Eingabefelder bleiben hier unverändert -->
+  <input
+    type="text"
+    name="vorname"
+    placeholder="Vorname der Kontaktperson"
+    autocomplete="given-name"
+    required>
 
-    <button
-      id="anmeldungButton"
-      type="submit"
-      class="btn primary">
-      Jetzt verbindlich anmelden
-    </button>
+  <input
+    type="text"
+    name="nachname"
+    placeholder="Nachname der Kontaktperson"
+    autocomplete="family-name"
+    required>
 
-  </form>
+  <input
+    type="tel"
+    name="telefon"
+    placeholder="Telefonnummer"
+    autocomplete="tel"
+    required>
+
+  <input
+    type="email"
+    name="email"
+    placeholder="E-Mail-Adresse"
+    autocomplete="email"
+    required>
+
+  <input
+    type="text"
+    name="teamname"
+    placeholder="Gruppenname / Teamname"
+    required>
+
+  <input
+    type="text"
+    name="spieler1"
+    placeholder="Spieler 1"
+    required>
+
+  <input
+    type="text"
+    name="spieler2"
+    placeholder="Spieler 2"
+    required>
+
+  <input
+    type="text"
+    name="spieler3"
+    placeholder="Spieler 3"
+    required>
+
+  <input
+    type="text"
+    name="spieler4"
+    placeholder="Spieler 4"
+    required>
+
+  <label class="check">
+    <input
+      type="checkbox"
+      name="datenschutzAkzeptiert"
+      required>
+
+    <span>
+      Ich habe die
+      <strong>
+        <a
+          href="downloads/Turnierordnung.pdf"
+          target="_blank"
+          rel="noopener">
+          Turnierordnung
+        </a>
+      </strong>
+      sowie die
+      <strong>
+        <a
+          href="datenschutz.html"
+          target="_blank"
+          rel="noopener">
+          Datenschutzhinweise
+        </a>
+      </strong>
+      gelesen und akzeptiere diese.
+    </span>
+  </label>
+
+  <button
+    id="anmeldungButton"
+    type="submit"
+    class="btn primary">
+    Jetzt verbindlich anmelden
+  </button>
+
+</form>
 
   <div
     id="meldung"
