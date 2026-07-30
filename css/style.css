@@ -1239,3 +1239,485 @@
     font-size: 0.95rem;
   }
 }
+/* =========================================
+   Gewinne und Siegertreppe
+========================================= */
+
+.gewinne-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.gewinne-box {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 38px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(246, 166, 35, 0.15),
+      transparent 38%
+    ),
+    rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.gewinne-kopf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 35px;
+  text-align: left;
+}
+
+.gewinne-kopf-icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.25));
+}
+
+.gewinne-kopf h2 {
+  margin: 0 0 8px;
+}
+
+.gewinne-kopf .lead {
+  margin: 0;
+}
+
+
+/* Siegertreppe */
+
+.siegertreppe {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 20px;
+  margin-top: 35px;
+}
+
+.sieger-platz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.sieger-platz h3 {
+  margin: 10px 0 12px;
+  font-size: 1.65rem;
+  color: #ffffff;
+}
+
+.platz-eins {
+  order: 2;
+}
+
+.platz-zwei {
+  order: 1;
+}
+
+.platz-drei {
+  order: 3;
+}
+
+
+/* Pokale */
+
+.pokal {
+  width: 120px;
+  max-width: 100%;
+  margin: 0 auto 8px;
+  animation: pokalSchweben 3.5s ease-in-out infinite;
+}
+
+.pokal svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 14px 12px rgba(0, 0, 0, 0.3));
+}
+
+.pokal-griff {
+  fill: none;
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.pokal-gold .pokal-schale,
+.pokal-gold .pokal-stiel,
+.pokal-gold .pokal-sockel,
+.pokal-gold .pokal-fuss {
+  fill: url("#gold");
+}
+
+.pokal-gold .pokal-schale,
+.pokal-gold .pokal-stiel,
+.pokal-gold .pokal-sockel,
+.pokal-gold .pokal-fuss {
+  fill: #f4b942;
+}
+
+.pokal-gold .pokal-griff {
+  stroke: #f4b942;
+}
+
+.pokal-silber .pokal-schale,
+.pokal-silber .pokal-stiel,
+.pokal-silber .pokal-sockel,
+.pokal-silber .pokal-fuss {
+  fill: #d8dde2;
+}
+
+.pokal-silber .pokal-griff {
+  stroke: #d8dde2;
+}
+
+.pokal-bronze .pokal-schale,
+.pokal-bronze .pokal-stiel,
+.pokal-bronze .pokal-sockel,
+.pokal-bronze .pokal-fuss {
+  fill: #bf7845;
+}
+
+.pokal-bronze .pokal-griff {
+  stroke: #bf7845;
+}
+
+.platz-eins .pokal {
+  width: 145px;
+}
+
+.platz-zwei .pokal {
+  width: 115px;
+  animation-delay: 0.25s;
+}
+
+.platz-drei .pokal {
+  width: 105px;
+  animation-delay: 0.5s;
+}
+
+@keyframes pokalSchweben {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+
+/* Preisangaben */
+
+.sieger-badge,
+.sonderpreis-label {
+  display: inline-block;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffb52a, #f08a24);
+  color: #182b2b;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  box-shadow: 0 7px 18px rgba(240, 138, 36, 0.25);
+}
+
+.preis-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 112px;
+  margin-bottom: 20px;
+}
+
+.preis-details strong {
+  color: #ffb52a;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.preis-details span {
+  display: block;
+  margin-top: 5px;
+}
+
+.preis-details .zusatzpreis {
+  margin-top: 14px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+
+/* Podeste */
+
+.podest {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 18px 18px 5px 5px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -15px 25px rgba(0, 0, 0, 0.13),
+    0 16px 30px rgba(0, 0, 0, 0.25);
+}
+
+.podest::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  width: 84%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.podest span {
+  font-size: 3.7rem;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.23);
+}
+
+.podest small {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.podest-eins {
+  min-height: 225px;
+  background:
+    linear-gradient(
+      145deg,
+      #f6c453 0%,
+      #d99a1b 45%,
+      #f4bd3f 100%
+    );
+  color: #332400;
+}
+
+.podest-zwei {
+  min-height: 175px;
+  background:
+    linear-gradient(
+      145deg,
+      #e4e7ea 0%,
+      #aeb5bc 50%,
+      #d7dce0 100%
+    );
+  color: #253038;
+}
+
+.podest-drei {
+  min-height: 140px;
+  background:
+    linear-gradient(
+      145deg,
+      #d28a55 0%,
+      #98562e 50%,
+      #c97b45 100%
+    );
+  color: #2e1609;
+}
+
+
+/* Schock-Out-Sonderpreis */
+
+.schockout-box {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 30px;
+  align-items: center;
+  margin-top: 45px;
+  padding: 30px;
+  border: 1px solid rgba(246, 166, 35, 0.42);
+  border-radius: 23px;
+  background:
+    radial-gradient(
+      circle at left center,
+      rgba(246, 166, 35, 0.23),
+      transparent 45%
+    ),
+    rgba(0, 0, 0, 0.13);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.schockout-symbol {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  font-size: 5rem;
+}
+
+.schockout-symbol .krone {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.25));
+}
+
+.schockout-symbol .wuerfel {
+  position: absolute;
+  bottom: 0;
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
+}
+
+.schockout-inhalt h3 {
+  margin: 12px 0 7px;
+  color: #ffb52a;
+  font-size: 2rem;
+}
+
+.schockout-inhalt > p {
+  margin-top: 0;
+}
+
+.schockout-preise {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 23px;
+}
+
+.schockout-preis {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.schockout-preis > span {
+  flex: 0 0 auto;
+  font-size: 2rem;
+}
+
+.schockout-preis div {
+  min-width: 0;
+}
+
+.schockout-preis strong,
+.schockout-preis small {
+  display: block;
+}
+
+.schockout-preis strong {
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+
+.schockout-preis small {
+  line-height: 1.35;
+  opacity: 0.8;
+}
+
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .siegertreppe {
+    gap: 12px;
+  }
+
+  .podest-eins {
+    min-height: 190px;
+  }
+
+  .podest-zwei {
+    min-height: 155px;
+  }
+
+  .podest-drei {
+    min-height: 125px;
+  }
+
+  .schockout-box {
+    grid-template-columns: 130px minmax(0, 1fr);
+  }
+
+  .schockout-preise {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Smartphone */
+
+@media (max-width: 700px) {
+  .gewinne-box {
+    padding: 28px 18px;
+  }
+
+  .gewinne-kopf {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .siegertreppe {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .platz-eins {
+    order: 1;
+  }
+
+  .platz-zwei {
+    order: 2;
+  }
+
+  .platz-drei {
+    order: 3;
+  }
+
+  .sieger-platz {
+    width: 100%;
+  }
+
+  .preis-details {
+    min-height: 0;
+  }
+
+  .podest-eins,
+  .podest-zwei,
+  .podest-drei {
+    min-height: 120px;
+  }
+
+  .schockout-box {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 24px 18px;
+    text-align: center;
+  }
+
+  .schockout-symbol {
+    min-height: 135px;
+  }
+
+  .schockout-preis {
+    text-align: left;
+  }
+}
