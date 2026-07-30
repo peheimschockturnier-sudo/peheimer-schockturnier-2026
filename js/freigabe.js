@@ -1,4 +1,4 @@
-const TESTMODUS = false;
+const TESTMODUS = true;
 const FREIGABE_DATUM = new Date("2026-09-01T00:00:00");
 
 const anmeldungGesperrt =
