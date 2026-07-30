@@ -218,10 +218,9 @@ async function ladeRangliste() {
               <tr>
                 <th>Platz</th>
                 <th>Spieler</th>
+                <th>Teamname</th>
                 <th>Punkte</th>
                 <th>Schock-Outs</th>
-                <th>Siege</th>
-                <th>Niederlagen</th>
               </tr>
             </thead>
 
