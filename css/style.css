@@ -923,3 +923,204 @@
     font-size: 1.15rem;
   }
 }
+/* =====================================================
+   AKTUELLE RANGLISTE
+===================================================== */
+
+#ranglisteContainer {
+  width: 100%;
+  max-width: 1100px;
+  margin: 35px auto 0;
+}
+
+.rangliste-rahmen {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.rangliste-kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 24px;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.14);
+  font-weight: 800;
+}
+
+.rangliste-kopf > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rangliste-kopf small {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 600;
+}
+
+.rangliste-livepunkt {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #42e695;
+  box-shadow: 0 0 14px rgba(66, 230, 149, 0.85);
+  animation: ranglistePuls 1.5s infinite;
+}
+
+@keyframes ranglistePuls {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+.rangliste-scroll {
+  overflow-x: auto;
+}
+
+.rangliste-tabelle {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  color: #ffffff;
+}
+
+.rangliste-tabelle th,
+.rangliste-tabelle td {
+  padding: 16px 18px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rangliste-tabelle th {
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.78rem;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.rangliste-tabelle tbody tr {
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.rangliste-tabelle tbody tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.rangliste-tabelle tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rang-platz {
+  white-space: nowrap;
+}
+
+.rang-symbol {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 1.25rem;
+}
+
+.rang-spieler {
+  font-weight: 800;
+  text-align: left !important;
+}
+
+.rang-gold {
+  color: #2b2409;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 225, 100, 0.96),
+    rgba(225, 178, 33, 0.9)
+  );
+}
+
+.rang-silber {
+  color: #1f292d;
+  background: linear-gradient(
+    90deg,
+    rgba(238, 242, 244, 0.95),
+    rgba(175, 188, 194, 0.9)
+  );
+}
+
+.rang-bronze {
+  color: #ffffff;
+  background: linear-gradient(
+    90deg,
+    rgba(190, 117, 63, 0.95),
+    rgba(123, 71, 35, 0.9)
+  );
+}
+
+.rangliste-fuss {
+  padding: 16px 22px;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.11);
+  text-align: right;
+  font-size: 0.85rem;
+}
+
+.rangliste-laden,
+.rangliste-leer,
+.rangliste-fehler {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 35px 25px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.rangliste-laden span,
+.rangliste-leer span,
+.rangliste-fehler span {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 2.4rem;
+}
+
+.rangliste-leer h3,
+.rangliste-fehler h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+.rangliste-leer p,
+.rangliste-fehler p,
+.rangliste-laden p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 700px) {
+  .rangliste-kopf {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .rangliste-tabelle th,
+  .rangliste-tabelle td {
+    padding: 14px 12px;
+  }
+
+  .rangliste-fuss {
+    text-align: center;
+  }
+}
