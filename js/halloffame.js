@@ -9,6 +9,48 @@ function hallSichererText(wert) {
     .replaceAll("'", "&#039;");
 }
 
+function normalisiereKategorie(kategorie) {
+  return String(kategorie || "")
+    .trim()
+    .toLowerCase()
+    .replaceAll("ö", "oe")
+    .replaceAll("ä", "ae")
+    .replaceAll("ü", "ue")
+    .replaceAll("ß", "ss");
+}
+
+function istTeamEintrag(eintrag) {
+  return normalisiereKategorie(
+    eintrag.kategorie
+  ) === "team";
+}
+
+function istSchockTitel(eintrag) {
+  const kategorie =
+    normalisiereKategorie(
+      eintrag.kategorie
+    );
+
+  return (
+    kategorie === "schockkoenig" ||
+    kategorie === "schockkoenigin" ||
+    kategorie === "schockkonig"
+  );
+}
+
+function ermittleSchockTitel(eintrag) {
+  const kategorie =
+    normalisiereKategorie(
+      eintrag.kategorie
+    );
+
+  if (kategorie === "schockkoenigin") {
+    return "Schock-Königin";
+  }
+
+  return "Schock-König";
+}
+
 function ermittleMedaille(platz) {
   const nummer = Number(platz);
 
@@ -43,31 +85,92 @@ function ermittleMedaille(platz) {
   };
 }
 
-function gruppiereGewinnerNachJahr(gewinner) {
-  return gewinner.reduce(function (gruppen, eintrag) {
-    const jahr = String(eintrag.jahr || "Unbekannt");
+function gruppiereNachJahr(eintraege) {
+  return eintraege.reduce(function (
+    gruppen,
+    eintrag
+  ) {
+    const jahr =
+      String(eintrag.jahr || "Unbekannt");
 
     if (!gruppen[jahr]) {
       gruppen[jahr] = [];
     }
 
     gruppen[jahr].push(eintrag);
+
     return gruppen;
   }, {});
 }
 
-function erstelleGewinnerEintrag(eintrag) {
-  const medaille = ermittleMedaille(eintrag.platz);
+function erstelleSchockTitel(eintrag) {
+  if (!eintrag) {
+    return `
+      <div class="hall-schocktitel hall-schocktitel-offen">
+        <div class="hall-krone">👑</div>
 
-  let spielerHtml = "";
+        <div>
+          <span class="hall-schock-label">
+            Schock-König oder Schock-Königin
+          </span>
 
-  if (eintrag.spieler) {
-    spielerHtml = `
-      <p class="hall-spieler">
-        ${hallSichererText(eintrag.spieler)}
-      </p>
+          <h4>Noch nicht vergeben</h4>
+        </div>
+      </div>
     `;
   }
+
+  const titel =
+    ermittleSchockTitel(eintrag);
+
+  const schockHtml =
+    Number(eintrag.schocks) > 0
+      ? `
+        <span class="hall-schockanzahl">
+          🎲 ${hallSichererText(
+            eintrag.schocks
+          )} Schocks
+        </span>
+      `
+      : "";
+
+  return `
+    <div class="hall-schocktitel">
+      <div class="hall-krone">👑</div>
+
+      <div class="hall-schock-inhalt">
+        <span class="hall-schock-label">
+          ${hallSichererText(titel)}
+        </span>
+
+        <h4>
+          ${hallSichererText(
+            eintrag.spieler ||
+            eintrag.teamname ||
+            "Noch offen"
+          )}
+        </h4>
+
+        ${schockHtml}
+      </div>
+    </div>
+  `;
+}
+
+function erstelleTeamPlatz(eintrag) {
+  const medaille =
+    ermittleMedaille(eintrag.platz);
+
+  const spielerHtml =
+    eintrag.spieler
+      ? `
+        <p class="hall-spieler">
+          ${hallSichererText(
+            eintrag.spieler
+          )}
+        </p>
+      `
+      : "";
 
   return `
     <article class="hall-platz ${medaille.klasse}">
@@ -82,7 +185,8 @@ function erstelleGewinnerEintrag(eintrag) {
 
         <h4>
           ${hallSichererText(
-            eintrag.teamname || "Noch nicht eingetragen"
+            eintrag.teamname ||
+            "Noch nicht eingetragen"
           )}
         </h4>
 
@@ -93,41 +197,71 @@ function erstelleGewinnerEintrag(eintrag) {
 }
 
 function erstelleJahreskarte(jahr, eintraege) {
-  const sortierteEintraege = [...eintraege].sort(function (a, b) {
-    return Number(a.platz) - Number(b.platz);
-  });
+  const teams = eintraege
+    .filter(istTeamEintrag)
+    .sort(function (a, b) {
+      return Number(a.platz) -
+        Number(b.platz);
+    });
 
-  const sieger = sortierteEintraege.find(function (eintrag) {
-    return Number(eintrag.platz) === 1;
-  });
+  const schockTitel =
+    eintraege.find(istSchockTitel);
 
-  let bildHtml = "";
+  const sieger =
+    teams.find(function (eintrag) {
+      return Number(eintrag.platz) === 1;
+    });
 
-  if (sieger && sieger.bild) {
-    bildHtml = `
+  const bild =
+    (sieger && sieger.bild) ||
+    (schockTitel && schockTitel.bild) ||
+    "";
+
+  const bildHtml = bild
+    ? `
       <div class="hall-bild">
         <img
-          src="${hallSichererText(sieger.bild)}"
-          alt="Gewinner des Turniers ${hallSichererText(jahr)}"
+          src="${hallSichererText(bild)}"
+          alt="Gewinner des Peheimer Schock Turniers ${hallSichererText(jahr)}"
           loading="lazy"
         >
       </div>
-    `;
-  }
+    `
+    : "";
+
+  const teamsHtml =
+    teams.length > 0
+      ? teams
+          .map(erstelleTeamPlatz)
+          .join("")
+      : `
+        <div class="hall-keine-platzierung">
+          Die Platzierungen stehen noch nicht fest.
+        </div>
+      `;
 
   return `
     <article class="hall-jahreskarte">
       <div class="hall-jahreskopf">
         <span class="hall-pokal">🏆</span>
-        <h3>${hallSichererText(jahr)}</h3>
+
+        <div>
+          <span class="hall-turniername">
+            Peheimer Schock Turnier
+          </span>
+
+          <h3>${hallSichererText(jahr)}</h3>
+        </div>
       </div>
 
       ${bildHtml}
 
+      ${erstelleSchockTitel(schockTitel)}
+
+      <div class="hall-trennlinie"></div>
+
       <div class="hall-platzierungen">
-        ${sortierteEintraege
-          .map(erstelleGewinnerEintrag)
-          .join("")}
+        ${teamsHtml}
       </div>
     </article>
   `;
@@ -135,7 +269,9 @@ function erstelleJahreskarte(jahr, eintraege) {
 
 async function ladeHallOfFame() {
   const container =
-    document.getElementById("hallOfFameContainer");
+    document.getElementById(
+      "hallOfFameContainer"
+    );
 
   if (!container) {
     return;
@@ -159,49 +295,64 @@ async function ladeHallOfFame() {
 
     if (!response.ok) {
       throw new Error(
-        "HTTP-Fehler: " + response.status
+        "HTTP-Fehler: " +
+        response.status
       );
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
-    console.log("Hall-of-Fame-Daten:", data);
+    console.log(
+      "Hall-of-Fame-Daten:",
+      data
+    );
 
     if (data.erfolg === false) {
       throw new Error(
         data.fehler ||
-        "Die Hall of Fame konnte nicht geladen werden."
+        "Hall of Fame konnte nicht geladen werden."
       );
     }
 
-    if (!Array.isArray(data.gewinner)) {
+    if (!Array.isArray(data.eintraege)) {
       throw new Error(
-        "Ungültige Antwort: 'gewinner' fehlt."
+        "Ungültige Antwort: 'eintraege' fehlt."
       );
     }
 
-    if (data.gewinner.length === 0) {
+    if (data.eintraege.length === 0) {
       container.innerHTML = `
         <div class="hall-leer">
           <span>🏆</span>
 
-          <h3>Die Hall of Fame entsteht</h3>
+          <h3>
+            Die Hall of Fame entsteht
+          </h3>
 
           <p>
-            Die Gewinner werden nach dem Turnier
-            hier veröffentlicht.
+            Die Gewinner und der Schock-König
+            oder die Schock-Königin werden hier
+            veröffentlicht.
           </p>
         </div>
       `;
+
       return;
     }
 
     const gruppen =
-      gruppiereGewinnerNachJahr(data.gewinner);
+      gruppiereNachJahr(
+        data.eintraege
+      );
 
-    const jahre = Object.keys(gruppen).sort(function (a, b) {
-      return Number(b) - Number(a);
-    });
+    const jahre =
+      Object.keys(gruppen).sort(
+        function (a, b) {
+          return Number(b) -
+            Number(a);
+        }
+      );
 
     container.innerHTML = `
       <div class="hall-grid">
@@ -217,7 +368,10 @@ async function ladeHallOfFame() {
     `;
 
   } catch (error) {
-    console.error("Hall-of-Fame-Fehler:", error);
+    console.error(
+      "Hall-of-Fame-Fehler:",
+      error
+    );
 
     container.innerHTML = `
       <div class="hall-fehler">
@@ -228,7 +382,9 @@ async function ladeHallOfFame() {
         </h3>
 
         <p>
-          ${hallSichererText(error.message)}
+          ${hallSichererText(
+            error.message
+          )}
         </p>
       </div>
     `;
