@@ -808,3 +808,118 @@
     padding: 14px;
   }
 }
+/* =====================================================
+   SCHOCK-KÖNIG / SCHOCK-KÖNIGIN
+===================================================== */
+
+.hall-turniername {
+  display: block;
+  margin-bottom: 2px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hall-schocktitel {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 22px;
+  padding: 20px;
+  border: 2px solid rgba(255, 202, 58, 0.75);
+  border-radius: 18px;
+  color: #ffffff;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(36, 25, 5, 0.95),
+      rgba(117, 75, 4, 0.85)
+    );
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.22),
+    inset 0 0 20px rgba(255, 202, 58, 0.08);
+}
+
+.hall-krone {
+  flex-shrink: 0;
+  font-size: 3rem;
+  line-height: 1;
+  filter:
+    drop-shadow(
+      0 4px 8px rgba(0, 0, 0, 0.3)
+    );
+}
+
+.hall-schock-inhalt {
+  min-width: 0;
+  text-align: left;
+}
+
+.hall-schock-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #ffd65a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hall-schocktitel h4 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.hall-schockanzahl {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 10px;
+  border-radius: 30px;
+  color: #251c04;
+  background: #ffd65a;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.hall-schocktitel-offen {
+  opacity: 0.75;
+}
+
+.hall-trennlinie {
+  height: 1px;
+  margin: 0 0 22px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.28),
+      transparent
+    );
+}
+
+.hall-keine-platzierung {
+  padding: 20px;
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .hall-schocktitel {
+    align-items: flex-start;
+    padding: 17px;
+  }
+
+  .hall-krone {
+    font-size: 2.5rem;
+  }
+
+  .hall-schocktitel h4 {
+    font-size: 1.15rem;
+  }
+}
