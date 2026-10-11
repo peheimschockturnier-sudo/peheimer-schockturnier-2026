@@ -1,4 +1,4 @@
-const zielDatum = new Date('2026-10-10T14:00:00').getTime();
+const zielDatum = new Date('2027-10-09T14:00:00').getTime();
 function countdown(){
   const jetzt = Date.now();
   const differenz = zielDatum - jetzt;
