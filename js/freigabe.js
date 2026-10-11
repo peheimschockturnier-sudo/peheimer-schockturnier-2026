@@ -1,5 +1,5 @@
 const TESTMODUS = false;
-const FREIGABE_DATUM = new Date("2026-09-01T00:00:00");
+const FREIGABE_DATUM = new Date("2027-09-01T00:00:00");
 
 const anmeldungGesperrt =
   document.getElementById("anmeldungGesperrt");
@@ -126,11 +126,11 @@ async function pruefeFreigabe() {
   }
 
   /*
-    Vor dem 01.09.2026 bleibt die Anmeldung gesperrt.
+    Vor dem 01.09.2027 bleibt die Anmeldung gesperrt.
   */
   if (jetzt < FREIGABE_DATUM) {
     zeigeSperrseite(
-      "Die Anmeldung zum 2. Peheimer Schock Turnier " +
+      "Die Anmeldung zum 3. Peheimer Schock Turnier " +
       "ist derzeit noch nicht freigeschaltet."
     );
 
@@ -148,7 +148,7 @@ async function pruefeFreigabe() {
 
     if (einstellungen.anmeldungOffen === false) {
       zeigeSperrseite(
-        "Die Anmeldung zum 2. Peheimer Schock Turnier " +
+        "Die Anmeldung zum 3. Peheimer Schock Turnier " +
         "ist derzeit geschlossen."
       );
 
